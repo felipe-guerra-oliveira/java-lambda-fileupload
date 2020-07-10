@@ -1,0 +1,19 @@
+---
+  AWSTemplateFormatVersion: '2010-09-09'
+  Transform: 'AWS::Serverless-2016-10-31'
+  Description: "Template de deploy para a função Lambda"
+  Resources:
+    FileConverterFunction:
+      Type: AWS::Serverless::Function
+      Properties:
+        CodeUri: target/dadosabertos-1.0.0.jar
+        Handler: br.com.itau.financas.contabil.dadosabertos.FileConverterHandler::handleRequest
+        Runtime: java8
+        MemorySize: 256
+        Timeout: 300
+        Events:
+          FileConverter:
+            Type: Api
+            Properties:
+              Path: /dadosabertos/upload
+              Method: post

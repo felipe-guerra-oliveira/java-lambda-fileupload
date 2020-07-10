@@ -1,0 +1,12 @@
+version = 0.1
+[default]
+[default.deploy]
+[default.deploy.parameters]
+stack_name = "DadosAbertosApp"
+s3_bucket = "aws-sam-cli-managed-default-samclisourcebucket-hqh3zyx1hpv7"
+s3_prefix = "DadosAbertosApp"
+region = "us-east-1"
+profile = "sysops"
+confirm_changeset = true
+capabilities = "CAPABILITY_IAM"
+

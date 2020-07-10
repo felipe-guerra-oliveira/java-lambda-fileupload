@@ -1,0 +1,38 @@
+/**
+ * 
+ */
+package br.com.itau.financas.contabil.dadosabertos.handler;
+
+import java.util.HashMap;
+
+import com.amazonaws.services.lambda.runtime.Context;
+import com.amazonaws.services.lambda.runtime.RequestHandler;
+import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyRequestEvent;
+import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyResponseEvent;
+
+/**
+ * @author felipeguerraoliveira
+ *
+ */
+public class FileConverterHandler implements RequestHandler<APIGatewayProxyRequestEvent, APIGatewayProxyResponseEvent> {
+	
+	public APIGatewayProxyResponseEvent handleRequest(APIGatewayProxyRequestEvent input, Context context) {
+		APIGatewayProxyResponseEvent response = new APIGatewayProxyResponseEvent();
+		HashMap<String, String> headers = new HashMap<String, String>();
+		
+		try {
+			headers.put("Content-Type", "application/json");
+			
+			response.setIsBase64Encoded(false);
+			response.setStatusCode(200);
+			response.setHeaders(headers);
+			
+		}catch(Exception ex) {
+			ex.printStackTrace();
+			response.setStatusCode(500);
+			
+		}
+		return response;
+	}
+
+}

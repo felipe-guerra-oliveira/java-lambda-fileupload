@@ -1,0 +1,44 @@
+---
+  AWSTemplateFormatVersion: "2010-09-09"
+  
+  Description: "Template de deploy para a função Lambda"
+  
+  Resources:
+    Type: AWS::Serverless::Function
+    Properties:
+      AssumeRolePolicyDocument: JSON
+      #AutoPublishAlias: String
+      #AutoPublishCodeSha256: String
+      CodeUri: .
+      #DeadLetterQueue: Map | DeadLetterQueue
+      #DeploymentPreference: DeploymentPreference
+      #Description: String
+      Environment: Environment
+      #EventInvokeConfig: EventInvokeConfiguration
+      Events:
+        ApiEvent:
+          Type: Api
+          Properties:
+            Path: /dadosabertos/upload
+            Method: post
+      #FileSystemConfigs: List
+      FunctionName: FileConverterHandler
+      Handler: handleRequest
+      #InlineCode: String
+      #KmsKeyArn: String
+      #Layers: List
+      MemorySize: 256
+      #PermissionsBoundary: String
+      #Policies: String | List | Map
+      #ProvisionedConcurrencyConfig: ProvisionedConcurrencyConfig
+      #ReservedConcurrentExecutions: Integer
+      #Role: String
+      Runtime: "java8"
+      #Tags: Map
+      Timeout: 300
+      #Tracing: String
+      #VersionDescription: String
+      #VpcConfig: VpcConfig
+        
+  
+  

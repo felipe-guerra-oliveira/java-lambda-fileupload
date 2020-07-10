@@ -1,0 +1,73 @@
+/**
+ * 
+ */
+package br.com.itau.financas.contabil.dadosabertos;
+
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.util.HashMap;
+
+import org.apache.commons.fileupload.MultipartStream;
+
+import com.amazonaws.services.lambda.runtime.Context;
+import com.amazonaws.services.lambda.runtime.RequestHandler;
+import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyRequestEvent;
+import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyResponseEvent;
+
+/**
+ * @author felipeguerraoliveira
+ *
+ */
+public class FileConverterHandler implements RequestHandler<APIGatewayProxyRequestEvent, APIGatewayProxyResponseEvent> {
+	
+	public APIGatewayProxyResponseEvent handleRequest(APIGatewayProxyRequestEvent input, Context context) {
+		APIGatewayProxyResponseEvent response = new APIGatewayProxyResponseEvent();
+		HashMap<String, String> headers = new HashMap<String, String>();
+		//File xlsUploadedFile = null;
+		byte[] byteArrayUploadedFile = null;
+		ByteArrayInputStream stream = null;
+		MultipartStream multipartStream = null;
+		ByteArrayOutputStream byteArrayOutputStream = null;
+		
+		try {
+			//dealing with the event
+			System.out.println("BODY -> IS BASE64?: " + input.getIsBase64Encoded());
+			
+			byteArrayUploadedFile = input.getBody().getBytes();
+			stream = new ByteArrayInputStream(byteArrayUploadedFile);
+			System.out.println("BODY -> LENGTH: " + byteArrayUploadedFile.length);
+			
+			input.getHeaders().keySet().forEach(key -> {
+				System.out.println("HEADER -> KEY: " + key + " -> VALUE: " + input.getHeaders().get(key));
+			});
+			
+			String contentType = input.getHeaders().get("content-type");
+			String[] boundaryArray = contentType.split("=");
+			
+			byte[] boundary = boundaryArray[1].getBytes();
+			multipartStream = new MultipartStream(stream, boundary);
+			
+			byteArrayOutputStream = new ByteArrayOutputStream();
+			boolean nextPart = multipartStream.skipPreamble();
+			
+			while( nextPart ) {
+				multipartStream.readBodyData(byteArrayOutputStream);
+				
+				nextPart = multipartStream.readBoundary();
+			}
+			
+			headers.put("Content-Type", "application/json");
+			
+			response.setIsBase64Encoded(false);
+			response.setStatusCode(200);
+			response.setHeaders(headers);
+			response.setBody("{'Status': 'Ok'}");
+			
+		}catch(Exception ex) {
+			ex.printStackTrace();
+			response.setStatusCode(500);
+		}
+		return response;
+	}
+
+}

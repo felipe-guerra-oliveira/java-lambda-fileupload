@@ -1,0 +1,14 @@
+/**
+ * 
+ */
+package br.com.itau.financas.contabil.dadosabertos.handler;
+
+import com.amazonaws.services.lambda.runtime.RequestHandler;
+
+/**
+ * @author felipeguerraoliveira
+ *
+ */
+public class FileConverterHandler implements RequestHandler<I, O> {
+
+}

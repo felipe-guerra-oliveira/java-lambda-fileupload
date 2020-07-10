@@ -1,0 +1,10 @@
+---
+  AWSTemplateFormatVersion: "2010-09-09"
+  Description: "Template de deploy para a função Lambda"
+  Resources:
+    Type: AWS::Serverless::Function
+
+
+        
+  
+  

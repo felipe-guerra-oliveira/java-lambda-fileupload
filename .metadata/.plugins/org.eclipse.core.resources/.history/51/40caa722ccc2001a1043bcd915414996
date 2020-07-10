@@ -1,0 +1,23 @@
+---
+  AWSTemplateFormatVersion: "2010-09-09"
+  Description: "Template de deploy para a função Lambda"
+  Resources:
+    Type: AWS::Serverless::Function
+    Properties:
+      AssumeRolePolicyDocument: JSON
+      CodeUri: .
+      Events:
+        ApiEvent:
+          Type: Api
+          Properties:
+            Path: /dadosabertos/upload
+            Method: post
+      FunctionName: FileConverterHandler
+      Handler: handleRequest
+      MemorySize: 256
+      Runtime: java8
+      Timeout: 300
+
+        
+  
+  
